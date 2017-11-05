@@ -6,7 +6,8 @@
 #include "power.h"
 #include <string.h>
 
-char FLAG[] = "<APRS>";
+char FLAGAPRS[] = "<APRS>";
+char FLAGGPRS[] = "<GPRS>";
 
 static APRSPacket packet;
 String textPacket = "\0";
@@ -25,24 +26,29 @@ void loop()
 { 
         while(Serial.available()) {
           textPacket =  Serial.readString();
-          Serial.println(textPacket);
         }
-
-        if (textPacket[0]!= '\0'){
-          if(strstr(textPacket.c_str(), FLAG)){
+          
+        if(strstr(textPacket.c_str(), FLAGAPRS)){
               
               Serial.print("TRIMIT: ");
               textPacket.remove(0, 6);
-              textPacket.trim();
+             // textPacket.trim();
 
-              Serial.println(textPacket);
-
+              Serial.print(textPacket);
+              Serial.print("\r\n");
               
               packet.aprs_send(textPacket);
-              while (afsk_flush()) {power_save();}
-          }
-          textPacket[0] = '\0';   
+             // while (afsk_flush()) {power_save();}
         }
 
+        if(strstr(textPacket.c_str(), FLAGGPRS)){
+              
+              textPacket.remove(0, 6);
+              textPacket.trim();
+              
+              Serial.print(textPacket);
+              Serial.print("\r\n");
+              
+        }
   
 }
