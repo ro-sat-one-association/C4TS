@@ -7,7 +7,6 @@
 #include <string.h>
 
 char FLAGAPRS[] = "<APRS>";
-char FLAGGPRS[] = "<GPRS>";
 
 static APRSPacket packet;
 String textPacket = "\0";
@@ -41,14 +40,4 @@ void loop()
              // while (afsk_flush()) {power_save();}
         }
 
-        if(strstr(textPacket.c_str(), FLAGGPRS)){
-              
-              textPacket.remove(0, 6);
-              textPacket.trim();
-              
-              Serial.print(textPacket);
-              Serial.print("\r\n");
-              
-        }
-  
 }
