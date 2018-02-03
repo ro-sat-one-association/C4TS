@@ -1,4 +1,7 @@
 #include <Arduino.h>
+
+#define SLAVE_ADDRESS 0x04
+
 #include <Wire.h>
 
 #include "config.h"
@@ -7,14 +10,16 @@
 #include "pin.h"
 #include "power.h"
 
-#define SLAVE_ADDRESS 0x04
 
 #define LOAD_EEPROM
 
-//Sends an APRS packet every...
-#define SEND_TIME_SPACING 10
-static APRSPacket packet;
+static uint8_t next_aprs = 0;
 
+
+#define SEND_TIME_SPACING 10
+
+static APRSPacket packet;
+String textPacket = "\0";
 
 #ifdef LOAD_EEPROM
     #include "eeprom_loader.cpp"
@@ -28,22 +33,17 @@ void setup()
       loadEEPROM();
   #endif
 
-  afsk_setup();
-
-  analogReference(INTERNAL);
-
   Wire.begin(SLAVE_ADDRESS);
-  
-  // define callbacks for i2c communication
+
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
-  
 
   Serial.begin(9600);
+  pinMode(4, OUTPUT);
+
+  afsk_setup();
+
 }
-
-
-String textPacket = "\0";
 
 static void doSomeWork(String text) {
   packet.aprs_send(text);
@@ -52,23 +52,31 @@ static void doSomeWork(String text) {
     power_save();
   }
   
-}
+} // doSomeWork
+
 
 void loop()
 {
-   while(Serial.available()) {
-          textPacket =  Serial.readString();
-   }
 
-    if(strstr(textPacket.c_str(), "<APRS>")){
-            Serial.print("TRIMIT: ");
-            textPacket.remove(0, 6);
-            Serial.print(textPacket);
-            Serial.print("\r\n");
-            doSomeWork(textPacket);  
-            textPacket = "\0"; 
+   while(Serial.available()) {
+      textPacket =  Serial.readString();
     }
 
+    if(strstr(textPacket.c_str(), "<APRS>")){
+              digitalWrite(4, HIGH);
+              Serial.print("TRIMIT: ");
+              textPacket.remove(0, 6);
+             // textPacket.trim();
+
+              Serial.print(textPacket);
+              Serial.print("\r\n");
+              
+              doSomeWork(textPacket);
+              
+              digitalWrite(4, LOW);
+              textPacket = "\0";
+             // while (afsk_flush()) {power_save();}
+        } 
 }
 
 void receiveData(int byteCount){
@@ -97,5 +105,6 @@ void sendData(){
     } break;
   }
   
-  Wire.write(number);
+  //Wire.write(number);
 }
+
