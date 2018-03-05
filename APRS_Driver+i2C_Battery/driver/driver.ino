@@ -33,6 +33,8 @@ void setup()
       loadEEPROM();
   #endif
 
+  analogReference(INTERNAL);
+
   Wire.begin(SLAVE_ADDRESS);
 
   Wire.onReceive(receiveData);
