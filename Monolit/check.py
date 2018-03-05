@@ -1,6 +1,7 @@
 import serial
 import time
 
+import camera as CAM
 import bmp180 as BMP
 import gps	  as GPS
 import tsl	  as TSL
@@ -10,6 +11,8 @@ import aprs	  as APRS
 from ds import DS18B20
 DS18 = DS18B20()
 
+
+CAM_OK		= CAM.test()
 BMP_OK		= False
 GPS_OK		= False
 TSL_OK		= False
@@ -17,10 +20,11 @@ BAT_OK		= False
 DS18_OK 	= False
 APRSToSend  = "=4656.00N/02622.00EO" #locatie temporara pana bag GPS
 
+stateString = "CAM:" + str(CAM_OK) + "\n"
+
 try:
 	BMPData = BMP.readData()
 	BMP_OK  = True
-	
 except IOError, e:
 	print "BMP" + str(e)
 
@@ -38,34 +42,39 @@ except IOError, e:
 	
 try:
 	BATData = BAT.readData()
-	BAT_OK  = True
+	if(int(BATData[0]) > 0 and int(BATData[1]) > 0):
+		BAT_OK  = True
 except IOError, e:
 	print "BAT" + str(e)
 	
 	
 try:
-	APRSToSend +=  "BMP: " + str(BMP_OK)  + " " + str(BMPData)   + "\n"
+	stateString +=  "BMP:" + str(BMP_OK)  + " " + str(BMPData)   + "\n"
 except NameError:
-	APRSToSend +=  "BMP: " + str(BMP_OK)  + "\n"
+	stateString +=  "BMP:" + str(BMP_OK)  + "\n"
 
 try:
-	APRSToSend += "DS18: " + str(DS18_OK) + " " +  str(DS18Data) + "\n"
+	stateString += "DS18:" + str(DS18_OK) + " " +  str(DS18Data) + "\n"
 except NameError:
-	APRSToSend += "DS18: " + str(DS18_OK) + "\n"
+	stateString += "DS18:" + str(DS18_OK) + "\n"
 
 try:
-	APRSToSend += "TSL: "  + str(TSL_OK)  + " " +  str(TSLData) + "\n"
+	stateString += "TSL:"  + str(TSL_OK)  + " " +  str(TSLData) + "\n"
 except NameError:
-	APRSToSend += "TSL: "  + str(TSL_OK)  + "\n"
+	stateString += "TSL:"  + str(TSL_OK)  + "\n"
 	
 try:
-	APRSToSend += "BAT: "  + str(BAT_OK)  + " " +  str(BATData) + "\n"
+	stateString += "BAT:"  + str(BAT_OK)  + " " +  str(BATData) + "\n"
 except NameError:
-	APRSToSend += "BAT: "  + str(BAT_OK)  + "\n"
+	stateString += "BAT:"  + str(BAT_OK)  + "\n"
 
-print APRSToSend
+APRSToSend += "Test"
 	
-#print "APRS: " + str(APRS.send(APRSToSend))
+stateString += "APRS: " + str(APRS.send(APRSToSend))
+	
+print stateString
+	
+
 
 
 	
