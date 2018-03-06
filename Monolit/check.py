@@ -1,4 +1,3 @@
-import serial
 import time
 
 import camera as CAM
@@ -12,7 +11,7 @@ from ds import DS18B20
 DS18 = DS18B20()
 
 
-CAM_OK		= CAM.test()
+CAM_OK		= False #CAM.test()
 BMP_OK		= False
 GPS_OK		= False
 TSL_OK		= False

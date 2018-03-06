@@ -98,12 +98,12 @@ def readData(addr=DEVICE):
 
 def printData():
     
-  (chip_id, chip_version) = readBmp180Id()
+  (chip_id, chip_version) = readId()
   print("Chip ID     : {0}".format(chip_id))
   print("Version     : {0}".format(chip_version))
 
   
-  (temperature,pressure)=readBmp180()
+  (temperature,pressure)=readData()
   print("Temperature : {0} C".format(temperature))
   print("Pressure    : {0} mbar".format(pressure))
 
