@@ -54,7 +54,7 @@ class SHT21:
         data = self.i2c.read(3)
         if self._calculate_checksum(data, 2) == ord(data[2]):
             return self._get_humidity_from_buffer(data)
-
+		
     def close(self):
         """Closes the i2c connection"""
         self.i2c.close()
@@ -111,7 +111,6 @@ class SHT21:
         unadjusted -= 6
         return unadjusted
 
-
 class SHT21Test(unittest.TestCase):
     """simple sanity test.  Run from the command line with 
     python -m unittest sht21 to check they are still good"""
@@ -131,7 +130,6 @@ class SHT21Test(unittest.TestCase):
         """Unit test to check the checksum method.  Uses values read"""
         self.failUnless(SHT21._calculate_checksum([chr(99), chr(172)], 2) == 249)
         self.failUnless(SHT21._calculate_checksum([chr(99), chr(160)], 2) == 132)
-
 if __name__ == "__main__":
     try:
         with SHT21(0) as sht21:

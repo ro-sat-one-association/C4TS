@@ -7,6 +7,21 @@ import tsl	  as TSL
 import batt	  as BAT
 import aprs	  as APRS
 
+from sht21 import SHT21
+
+try:
+	SHT  = SHT21(0)
+except IOError, e:
+	print "SHT" + str(e)
+	
+try: 
+	SHTData = (round(SHT.read_temperature(), 2), round(SHT.read_humidity(), 2))
+except IOError, e:
+	print "SHT" + str(e)
+except NameError, e:
+	print "SHT" + str(e)
+
+
 def CtoF(temperature):
 	return str(int(temperature * 1.8 + 32))
 
@@ -32,7 +47,12 @@ else:
 	else:
 		APRSToSend += CtoF(BMPData[0])	
 
-APRSToSend += "h...b" #cand o sa fie adaugat SHT21
+	
+APRSToSend += "h"
+	
+APRSToSend += str(int(SHTData[1]))
+
+APRSToSend += "b" #cand o sa fie adaugat SHT21
 
 tailingZeros = 5 - len(str(int(BMPData[1]*10)))
 for i in range(tailingZeros):
