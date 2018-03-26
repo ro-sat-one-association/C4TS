@@ -1,0 +1,2 @@
+YO8RTZ-5>APDR14,TCPIP*,qAC,T2CSNGRAD:=4656.12N/02622.92E:000/000/A=000874 https://aprsdroid.org/
+echo "<APRS>=4656.00N/02622.00E:Extremues Pascues" > /dev/ttyS0

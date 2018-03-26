@@ -1,0 +1,394 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:74xGxx
+LIBS:Audio
+LIBS:Battery_Management
+LIBS:Device
+LIBS:Diode
+LIBS:Interface
+LIBS:Logic_Programmable
+LIBS:Mechanical
+LIBS:Power_Management
+LIBS:pspice
+LIBS:Triac_Thyristor
+LIBS:Video
+LIBS:m10dof
+LIBS:esp8266(3
+LIBS:drv8833
+LIBS:stabu
+LIBS:tracker-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L M10DOF U4
+U 1 1 5AA9522B
+P 9250 1800
+F 0 "U4" H 9150 2250 60  0000 C CNN
+F 1 "M10DOF" V 9450 1850 60  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x06_Pitch2.54mm" H 9450 1750 60  0001 C CNN
+F 3 "" H 9450 1750 60  0001 C CNN
+	1    9250 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L ESP8266(3.3) U2
+U 1 1 5AA956BA
+P 5200 4650
+F 0 "U2" H 5200 5150 60  0000 C CNN
+F 1 "ESP8266(3.3)" H 5200 4650 60  0000 C CNN
+F 2 "tr:ESP8266" H 5200 4650 60  0001 C CNN
+F 3 "" H 5200 4650 60  0001 C CNN
+	1    5200 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L DRV8833 U1
+U 1 1 5AA95ABC
+P 2450 2650
+F 0 "U1" H 2450 3100 60  0000 C CNN
+F 1 "DRV8833" H 2450 2650 60  0000 C CNN
+F 2 "tr:DRV8833" H 2450 2650 60  0001 C CNN
+F 3 "" H 2450 2650 60  0001 C CNN
+	1    2450 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Motor_DC M1
+U 1 1 5AA95D87
+P 4900 1300
+F 0 "M1" H 5000 1400 50  0000 L CNN
+F 1 "Motor_DC -A-" H 5000 1100 50  0000 L TNN
+F 2 "Terminal_Blocks:TerminalBlock_bornier-2_P5.08mm" H 4900 1210 50  0001 C CNN
+F 3 "" H 4900 1210 50  0001 C CNN
+	1    4900 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Motor_DC M2
+U 1 1 5AA95EC8
+P 5950 1300
+F 0 "M2" H 6050 1400 50  0000 L CNN
+F 1 "Motor_DC2 -B-" H 6050 1100 50  0000 L TNN
+F 2 "Terminal_Blocks:TerminalBlock_bornier-2_P5.08mm" H 5950 1210 50  0001 C CNN
+F 3 "" H 5950 1210 50  0001 C CNN
+	1    5950 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 5AACD905
+P 10250 5850
+F 0 "#PWR01" H 10250 5600 50  0001 C CNN
+F 1 "GND" H 10250 5700 50  0000 C CNN
+F 2 "" H 10250 5850 50  0001 C CNN
+F 3 "" H 10250 5850 50  0001 C CNN
+	1    10250 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR02
+U 1 1 5AACF917
+P 10250 5550
+F 0 "#PWR02" H 10250 5400 50  0001 C CNN
+F 1 "+3.3V" H 10250 5690 50  0000 C CNN
+F 2 "" H 10250 5550 50  0001 C CNN
+F 3 "" H 10250 5550 50  0001 C CNN
+	1    10250 5550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Conn_01x02 J1
+U 1 1 5AACFB40
+P 10450 3450
+F 0 "J1" H 10450 3550 50  0000 C CNN
+F 1 "Conn_01x02" H 10450 3250 50  0000 C CNN
+F 2 "Terminal_Blocks:TerminalBlock_bornier-2_P5.08mm" H 10450 3450 50  0001 C CNN
+F 3 "" H 10450 3450 50  0001 C CNN
+	1    10450 3450
+	0    1    1    0   
+$EndComp
+$Comp
+L +BATT #PWR03
+U 1 1 5AACFE62
+P 10300 2550
+F 0 "#PWR03" H 10300 2400 50  0001 C CNN
+F 1 "+BATT" H 10300 2690 50  0000 C CNN
+F 2 "" H 10300 2550 50  0001 C CNN
+F 3 "" H 10300 2550 50  0001 C CNN
+	1    10300 2550
+	-1   0    0    1   
+$EndComp
+NoConn ~ 1750 2400
+NoConn ~ 1750 2500
+NoConn ~ 1750 3000
+NoConn ~ 1750 3100
+NoConn ~ 3150 3000
+NoConn ~ 3150 3100
+NoConn ~ 4500 4250
+NoConn ~ 4500 4350
+NoConn ~ 4500 4450
+NoConn ~ 5900 4250
+NoConn ~ 5900 4350
+NoConn ~ 5900 4650
+NoConn ~ 5900 4750
+NoConn ~ 5900 4850
+NoConn ~ 5350 5350
+NoConn ~ 4950 5350
+NoConn ~ 9000 1950
+NoConn ~ 9000 2050
+NoConn ~ 50   1900
+NoConn ~ 1950 3000
+NoConn ~ 4500 4950
+Wire Wire Line
+	3150 2600 3250 2600
+Wire Wire Line
+	3250 2600 3250 700 
+Wire Wire Line
+	3250 700  5950 700 
+Wire Wire Line
+	5950 700  5950 1100
+Wire Wire Line
+	3150 2700 3350 2700
+Wire Wire Line
+	3350 2700 3350 800 
+Wire Wire Line
+	3350 800  5750 800 
+Wire Wire Line
+	5750 800  5750 1600
+Wire Wire Line
+	5750 1600 5950 1600
+Wire Wire Line
+	3150 2800 3450 2800
+Wire Wire Line
+	3450 2800 3450 900 
+Wire Wire Line
+	3450 900  4900 900 
+Wire Wire Line
+	4900 900  4900 1100
+Wire Wire Line
+	3150 2900 3550 2900
+Wire Wire Line
+	3550 2900 3550 1000
+Wire Wire Line
+	3550 1000 4700 1000
+Wire Wire Line
+	4700 1000 4700 1600
+Wire Wire Line
+	4700 1600 4900 1600
+Wire Wire Line
+	1650 2600 1650 4850
+Wire Wire Line
+	1650 2600 1750 2600
+Wire Wire Line
+	1750 2700 1550 2700
+Wire Wire Line
+	1550 2700 1550 4750
+Wire Wire Line
+	1450 2800 1750 2800
+Wire Wire Line
+	1350 2900 1750 2900
+Wire Wire Line
+	3150 2400 8600 2400
+Wire Wire Line
+	4250 5150 4500 5150
+Connection ~ 4250 2400
+Wire Wire Line
+	9000 1850 8900 1850
+Wire Wire Line
+	8800 1750 9000 1750
+Wire Wire Line
+	9000 1550 8500 1550
+Wire Wire Line
+	9000 1650 8600 1650
+Wire Wire Line
+	8600 1650 8600 2400
+Connection ~ 4250 5150
+Wire Wire Line
+	4250 2400 4250 5800
+Wire Wire Line
+	4250 5800 10250 5800
+Wire Wire Line
+	3150 2500 10300 2500
+Wire Wire Line
+	7850 5550 10250 5550
+Wire Wire Line
+	10250 5800 10250 5850
+Wire Wire Line
+	5900 4950 8500 4950
+Wire Wire Line
+	8500 4950 8500 1550
+Wire Wire Line
+	5900 5150 5900 5350
+Wire Wire Line
+	5900 5350 5450 5350
+Wire Wire Line
+	5450 5350 5450 5500
+Wire Wire Line
+	5450 5500 4250 5500
+Wire Wire Line
+	4250 5500 4250 5150
+$Comp
+L pwr_reg U3
+U 1 1 5AB239FB
+P 10150 2050
+F 0 "U3" H 10150 2050 60  0000 C CNN
+F 1 "pwr_reg" H 10150 1450 60  0000 C CNN
+F 2 "tr:pwr_reg" H 10150 2050 60  0001 C CNN
+F 3 "" H 10150 2050 60  0001 C CNN
+	1    10150 2050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	10300 2500 10300 2550
+$Comp
+L GND #PWR04
+U 1 1 5AB23FEF
+P 10500 2550
+F 0 "#PWR04" H 10500 2300 50  0001 C CNN
+F 1 "GND" H 10500 2400 50  0000 C CNN
+F 2 "" H 10500 2550 50  0001 C CNN
+F 3 "" H 10500 2550 50  0001 C CNN
+	1    10500 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR05
+U 1 1 5AB2407A
+P 10500 1550
+F 0 "#PWR05" H 10500 1300 50  0001 C CNN
+F 1 "GND" H 10500 1400 50  0000 C CNN
+F 2 "" H 10500 1550 50  0001 C CNN
+F 3 "" H 10500 1550 50  0001 C CNN
+	1    10500 1550
+	-1   0    0    1   
+$EndComp
+$Comp
+L +3.3V #PWR06
+U 1 1 5AB24175
+P 10300 1550
+F 0 "#PWR06" H 10300 1400 50  0001 C CNN
+F 1 "+3.3V" H 10300 1690 50  0000 C CNN
+F 2 "" H 10300 1550 50  0001 C CNN
+F 3 "" H 10300 1550 50  0001 C CNN
+	1    10300 1550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10300 1650 10300 1550
+Wire Wire Line
+	10500 1550 10500 1650
+Wire Wire Line
+	10500 2550 10500 2500
+$Comp
+L +BATT #PWR07
+U 1 1 5AB2450E
+P 10350 3150
+F 0 "#PWR07" H 10350 3000 50  0001 C CNN
+F 1 "+BATT" H 10350 3290 50  0000 C CNN
+F 2 "" H 10350 3150 50  0001 C CNN
+F 3 "" H 10350 3150 50  0001 C CNN
+	1    10350 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR08
+U 1 1 5AB24531
+P 10550 3150
+F 0 "#PWR08" H 10550 2900 50  0001 C CNN
+F 1 "GND" H 10550 3000 50  0000 C CNN
+F 2 "" H 10550 3150 50  0001 C CNN
+F 3 "" H 10550 3150 50  0001 C CNN
+	1    10550 3150
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	10350 3250 10350 3150
+Wire Wire Line
+	10450 3250 10450 3150
+Wire Wire Line
+	10450 3150 10550 3150
+Wire Wire Line
+	7850 5550 7850 4950
+Connection ~ 7850 4950
+NoConn ~ 4500 5050
+$Comp
+L GND #PWR09
+U 1 1 5AB24B51
+P 6150 5050
+F 0 "#PWR09" H 6150 4800 50  0001 C CNN
+F 1 "GND" H 6150 4900 50  0000 C CNN
+F 2 "" H 6150 5050 50  0001 C CNN
+F 3 "" H 6150 5050 50  0001 C CNN
+	1    6150 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 5050 6150 5050
+Wire Wire Line
+	5900 4550 9100 4550
+Wire Wire Line
+	5900 4450 8900 4450
+Wire Wire Line
+	1650 4850 4500 4850
+Wire Wire Line
+	1550 4750 4500 4750
+Wire Wire Line
+	1450 4650 4500 4650
+Wire Wire Line
+	1350 4550 4500 4550
+Wire Wire Line
+	1450 2800 1450 4650
+Wire Wire Line
+	1350 4550 1350 2900
+Wire Wire Line
+	8900 4450 8900 1850
+Wire Wire Line
+	8800 1750 8800 3950
+Wire Wire Line
+	8800 3950 9100 3950
+Wire Wire Line
+	9100 3950 9100 4550
+$EndSCHEMATC

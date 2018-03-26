@@ -3,7 +3,7 @@ import time
 import difflib
 import pigpio
 
-RX=1
+RX=18
 
 try:
         pi = pigpio.pi()

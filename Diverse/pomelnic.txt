@@ -1,0 +1,17 @@
+Verificare:
+
+MPU925x
+BMP180 - facut
+SHT21
+DS18 - facut
+TSL  - facut		
+
+GPS
+
+ARDUINO:
+	Baterie - facut
+	APRS    - facut
+
+GPRS-GSM
+
+CAMERA
