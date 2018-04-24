@@ -1,79 +1,61 @@
-import time
-import json
-import smbus
-import logging 
+import rx_gps as GPS_RX
+import pynmea2
 
-BUS = None
-address = 0x42
-LOG = logging.getLogger()
+def readData():
+	data = GPS_RX.read()
+	data = data.split('\n')
+	GGA  = ""
+	
+	for i in range(0, len(data)):
+		if (data[i].find("GGA") != -1):
+			GGA = data[i]
+			break
+	
+	msg = pynmea2.parse(GGA)
+	
+	lat_dec  = msg.latitude
+	long_dec = msg.longitude
+	altitude = msg.altitude
+	
+	lat =  int(lat_dec) * 100
+	lat += int((lat_dec - int(lat_dec))*60)
+	lat += (lat_dec - int(lat_dec))*60 - int((lat_dec - int(lat_dec))*60)
+	lat =  '%.2f' % round(lat,2)
+	
+	if lat_dec > 0:
+		lat = str(lat) + "N"
+	else:
+		lat = str(lat) + "S"
+	
+	long =  int(long_dec) * 100
+	long += int((long_dec - int(long_dec))*60)
+	long += (long_dec - int(long_dec))*60 - int((long_dec - int(long_dec))*60)
+	long = '%.2f' % round(long,2)
+	
+	if long_dec > 0:
+		long = str(long) + "E"
+		if long_dec < 100:
+			long = "0" + long
+	else:
+		long = str(long) + "W"
+		if long_dec > -100:
+			long = "0" + long
+	
+	return [lat,long,altitude]
 
-# GUIDE
-# http://ava.upuaut.net/?p=768
-
-GPSDAT = {
-    'strType': None,
-    'fixTime': None,
-    'lat': None,
-    'latDir': None,
-    'lon': None,
-    'lonDir': None,
-    'fixQual': None,
-    'numSat': None,
-    'horDil': None,
-    'alt': None,
-    'altUnit': None,
-    'galt': None,
-    'galtUnit': None,
-    'DPGS_updt': None,
-    'DPGS_ID': None
-}
-
-def connectBus():
-    global BUS
-    BUS = smbus.SMBus(1)
-
-def parseResponse(gpsLine):
-    global lastLocation
-    gpsChars = ''.join(chr(c) for c in gpsLine)
-    if "*" not in gpsChars:
-        return False
-
-    gpsStr, chkSum = gpsChars.split('*')    
-    gpsComponents = gpsStr.split(',')
-    gpsStart = gpsComponents[0]
-    if (gpsStart == "$GNGGA"):
-        chkVal = 0
-        for ch in gpsStr[1:]: # Remove the $
-            chkVal ^= ord(ch)
-        if (chkVal == int(chkSum, 16)):
-            for i, k in enumerate(
-                ['strType', 'fixTime', 
-                'lat', 'latDir', 'lon', 'lonDir',
-                'fixQual', 'numSat', 'horDil', 
-                'alt', 'altUnit', 'galt', 'galtUnit',
-                'DPGS_updt', 'DPGS_ID']):
-                GPSDAT[k] = gpsComponents[i]
-            print gpsChars
-            print json.dumps(GPSDAT, indent=2)
-
-def readGPS():
-    c = None
-    response = []
-    try:
-        while True: # Newline, or bad char.
-            c = BUS.read_byte(address)
-            if c == 255:
-                return False
-            elif c == 10:
-                break
-            else:
-                response.append(c)
-        parseResponse(response)
-    except IOError:
-        time.sleep(0.5)
-        connectBus()
-    except Exception, e:
-        print e
-        LOG.error(e)
-
-connectBus()
+def readDataDecimal():
+	data = GPS_RX.read()
+	data = data.split('\n')
+	GGA  = ""
+	
+	for i in range(0, len(data)):
+		if (data[i].find("GGA") != -1):
+			GGA = data[i]
+			break
+	
+	msg = pynmea2.parse(GGA)
+	
+	lat  = msg.latitude
+	long = msg.longitude
+	altitude = msg.altitude
+	return [lat,long,altitude] 
