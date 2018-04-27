@@ -14,7 +14,10 @@ try:
         while 1:
                 (count, data) = pi.bb_serial_read(RX)
                 if count:
+                        #print repr(data)
                         print data
+                        if (data == '\x00'):
+                            print "SHUTDOWN"
                 time.sleep(1)
 
 except:

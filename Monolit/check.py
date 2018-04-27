@@ -23,11 +23,11 @@ except IOError, e:
 CAM_OK		= False #CAM.test()
 BMP_OK		= False
 GPS_OK		= False
-TSL_OK		= False
-BAT_OK		= False
-SHT_OK		= False
 DS18_OK 	= False
-APRSToSend  = "=4656.32N/02623.56EO" #locatie temporara pana bag GPS
+TSL_OK		= False
+SHT_OK		= False
+BAT_OK		= False
+
 
 stateString = "CAM:" + str(CAM_OK) + "\n"
 
@@ -36,6 +36,13 @@ try:
 	BMP_OK  = True
 except IOError, e:
 	print "BMP" + str(e)
+	
+try:
+	GPSData = GPS.readData()
+	if (GPSData[2] != None):
+		GPS_OK  = True
+except:
+	print "Nu pot citi GPS-ul"
 	
 try:
 	DS18Data = DS18.readTemperature()
@@ -66,11 +73,17 @@ try:
 except IOError, e:
 	print "BAT" + str(e)
 
+
 	
 try:
 	stateString += "BMP:" + str(BMP_OK)  + " " + str(BMPData)   + "\n"
 except NameError:
 	stateString += "BMP:" + str(BMP_OK)  + "\n"
+	
+try:
+	stateString += "GPS:" + str(GPS_OK)  + " " + str(GPSData)   + "\n"
+except NameError:
+	stateString += "GPS:" + str(GPS_OK)  + "\n"
 
 try:
 	stateString += "DS18:" + str(DS18_OK) + " " +  str(DS18Data) + "\n"
@@ -92,10 +105,26 @@ try:
 except NameError:
 	stateString += "BAT:"  + str(BAT_OK)  + "\n"
 
-	
-APRSToSend += "Test"
-	
-stateString += "APRS: " + str(APRS.send(APRSToSend))
-	
+
+
+APRSToSend  = ""
+APRSToSend += "C"  +  str(int(CAM_OK ))
+APRSToSend += "B"  +  str(int(BMP_OK ))
+APRSToSend += "G"  +  str(int(GPS_OK ))
+APRSToSend += "D"  +  str(int(DS18_OK))
+APRSToSend += "T"  +  str(int(TSL_OK ))
+APRSToSend += "S"  +  str(int(SHT_OK ))
+APRSToSend += "Ba" +  str(int(BAT_OK ))
+
+
+#stateString += "APRS: " + str(APRS.send(APRSToSend))
+
 print stateString
+
+def getAPRS():
+	global APRSToSend
+	return APRSToSend
+
+	
+
 	

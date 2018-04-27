@@ -41,6 +41,11 @@ def readData():
 		if long_dec > -100:
 			long = "0" + long
 	
+	if altitude != None:
+		f = open('gps.txt', 'w')
+		data = str(lat) + "," + str(long) + "," + str(altitude)
+		f.write (data)
+		f.close()
 	return [lat,long,altitude]
 
 def readDataDecimal():
@@ -59,3 +64,19 @@ def readDataDecimal():
 	long = msg.longitude
 	altitude = msg.altitude
 	return [lat,long,altitude] 
+	
+def getLastLocation():
+	f = open('gps.txt', 'r')
+	GPSStr = f.read()
+	f.close()
+	GPSData = GPSStr.split(',')
+	return GPSData
+
+def getAltitudeAPRS(altitude):
+	altitude = int(altitude * 3.28084)
+	returnStr = ""
+	for i in range(0, 6 - len(str(altitude))):
+		returnStr += "0"
+	returnStr += str(altitude)
+	return returnStr
+	

@@ -6,10 +6,9 @@ import gps	  as GPS
 import tsl	  as TSL
 import batt	  as BAT
 import aprs	  as APRS
+import check  as CHECK
 
 from sht21 import SHT21
-
-
 
 try:
 	SHT  = SHT21(0)
@@ -24,7 +23,6 @@ except IOError, e:
 except NameError, e:
 	print "SHT" + str(e)
 
-
 def CtoF(temperature):
 	return str(int(temperature * 1.8 + 32))
 
@@ -33,63 +31,72 @@ try:
 except IOError:
 	print "Nu pot citi BMP-ul"
 	BMPData = [0,0]
-
+	
 try:
 	GPSData = GPS.readData()
+	if (CHECK.GPS_OK == False):
+		GPSData = GPS.getLastLocation()
 except:
 	print "Nu pot citi GPS-ul"
+	GPSData = GPS.getLastLocation()
 
-APRSToSend   = "="
-APRSToSend  += GPSData[0]
-APRSToSend  += "/" #indicator tabel
-APRSToSend  += GPSData[1]
-APRSToSend  += "_" #_ - wx O - balon
-#APRSToSend  = "=4656.32N/02623.56E_" 
-APRSToSend += "c...s...g...t"
+APRS1   = "="
+APRS1  += GPSData[0]
+APRS1  += "/" #indicator tabel
+APRS1  += GPSData[1]
+APRS1  += "_" #_ - wx O - balon
+#APRS1  = "=4656.32N/02623.56E_" 
+APRS1 += "c...s...g...t"
 
+
+###TEMPERATURA BMP###
 if int(CtoF(BMPData[0])) >= 0:
 	if int(CtoF(BMPData[0])) < 100:
-		APRSToSend += "0"
+		APRS1 += "0"
 		if int(CtoF(BMPData[0])) < 10:
-			APRSToSend += "0"
-	APRSToSend += CtoF(BMPData[0])	
+			APRS1 += "0"
+	APRS1 += CtoF(BMPData[0])	
 else:
 	if int(CtoF(BMPData[0])) > -10:
-		APRSToSend += "-0"
-		APRSToSend += str(-int(CtoF(BMPData[0])))
+		APRS1 += "-0"
+		APRS1 += str(-int(CtoF(BMPData[0])))
 	else:
-		APRSToSend += CtoF(BMPData[0])	
+		APRS1 += CtoF(BMPData[0])	
+#####################
 
-	
-APRSToSend += "h"
-	
-APRSToSend += str(int(SHTData[1]))
 
-APRSToSend += "b" 
+###UMIDITATE SHT###
+APRS1 += "h"
+APRS1 += str(int(SHTData[1]))
+###################
 
+
+###PRESIUNE BMP###
+APRS1 += "b" 
 tailingZeros = 5 - len(str(int(BMPData[1]*10)))
 for i in range(tailingZeros):
-	APRSToSend += "0"	
+	APRS1 += "0"	
 if tailingZeros < 0:
-	APRSToSend += "....."
+	APRS1 += "....."
 else:
-	APRSToSend += str(int(BMPData[1]*10))
-	
-APRSToSend += "TEST"
+	APRS1 += str(int(BMPData[1]*10))
+##################	
 
-print APRS.send(APRSToSend)
+print APRS.send(APRS1)
+print APRS1
 
-time.sleep(5)
+time.sleep(3)
 
-print APRSToSend
 
-APRSToSend   = "="
-APRSToSend  += GPSData[0]
-APRSToSend  += "/" #indicator tabel
-APRSToSend  += GPSData[1]
-APRSToSend  += "O" #_ - wx O - balon
-APRSToSend  += "Date_etc_chestii_TEST"
+APRS2   = "="
+APRS2  += GPSData[0]
+APRS2  += "/" #indicator tabel
+APRS2  += GPSData[1]
+APRS2  += "O" #_ - wx O - balon 
+APRS2  += CHECK.getAPRS()
+APRS2 += "/A="
+APRS2 += GPS.getAltitudeAPRS(GPSData[2])
 
-print APRS.send(APRSToSend)
+print APRS.send(APRS2)
 
-print APRSToSend
+print APRS2
