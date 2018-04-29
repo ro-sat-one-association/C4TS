@@ -5,7 +5,6 @@ import bmp180 as BMP
 import gps    as GPS
 import tsl    as TSL
 import batt   as BAT
-import aprs   as APRS
 
 from sht21 import SHT21
 from ds    import DS18B20
@@ -20,7 +19,7 @@ try:
 except IOError, e:
     print "SHT" + str(e)
 
-CAM_OK      = False
+
 BMP_OK      = False
 GPS_OK      = False
 DS18_OK     = False
@@ -35,8 +34,6 @@ TSLData  = -1
 SHTData  = -1
 BATData  = -1
 
-CAM_OK = CAM.test()
-
 try:
     BMPData = BMP.readData()
     BMP_OK  = True
@@ -47,8 +44,11 @@ try:
     GPSData = GPS.readData()
     if (GPSData[2] != None):
         GPS_OK  = True
+    else:
+        GPSData = GPS.getLastLocation()
 except:
     print "Nu pot citi GPS-ul"
+    GPSData = GPS.getLastLocation()
     
 try:
     DS18Data = DS18.readTemperature()
@@ -80,8 +80,7 @@ try:
 except IOError, e:
     print "BAT" + str(e)
 
-    
-stateString = "CAM:" + str(CAM_OK) + "\n"
+stateString  = ""
 stateString += "BMP:"  + str(BMP_OK)  + " " +  str(BMPData)  + "\n"
 stateString += "GPS:"  + str(GPS_OK)  + " " +  str(GPSData)  + "\n"
 stateString += "DS18:" + str(DS18_OK) + " " +  str(DS18Data) + "\n"
@@ -91,7 +90,6 @@ stateString += "BAT:"  + str(BAT_OK)  + " " +  str(BATData)  + "\n"
 
 
 APRSToSend  = ""
-APRSToSend += "C"  +  str(int(CAM_OK ))
 APRSToSend += "B"  +  str(int(BMP_OK ))
 APRSToSend += "G"  +  str(int(GPS_OK ))
 APRSToSend += "D"  +  str(int(DS18_OK))
@@ -99,5 +97,15 @@ APRSToSend += "T"  +  str(int(TSL_OK ))
 APRSToSend += "S"  +  str(int(SHT_OK ))
 APRSToSend += "Ba" +  str(int(BAT_OK ))
 
+Data         = {}
+Data["BMP"]  = BMPData
+Data["GPS"]  = GPSData
+Data["DS18"] = DS18Data
+Data["TSL"]  = TSLData
+Data["SHT"]  = SHTData
+Data["BAT"]  = BATData
+
 
 print stateString
+
+    

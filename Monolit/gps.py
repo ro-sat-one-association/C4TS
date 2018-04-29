@@ -27,10 +27,10 @@ def readData():
 	else:
 		lat = str(lat) + "S"
 	
-	long =  int(long_dec) * 100
+	long  =  int(long_dec) * 100
 	long += int((long_dec - int(long_dec))*60)
 	long += (long_dec - int(long_dec))*60 - int((long_dec - int(long_dec))*60)
-	long = '%.2f' % round(long,2)
+	long  = '%.2f' % round(long,2)
 	
 	if long_dec > 0:
 		long = str(long) + "E"
@@ -71,12 +71,4 @@ def getLastLocation():
 	f.close()
 	GPSData = GPSStr.split(',')
 	return GPSData
-
-def getAltitudeAPRS(altitude):
-	altitude = int(altitude * 3.28084)
-	returnStr = ""
-	for i in range(0, 6 - len(str(altitude))):
-		returnStr += "0"
-	returnStr += str(altitude)
-	return returnStr
 	

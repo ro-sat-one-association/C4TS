@@ -3,7 +3,7 @@ import time
 import subprocess
 
 def getSize(fileobject):
-    fileobject.seek(0,2) # move the cursor to the end of the file
+    fileobject.seek(0,2) 
     size = fileobject.tell()
     return size
 

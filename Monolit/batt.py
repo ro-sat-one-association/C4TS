@@ -29,7 +29,7 @@ def readRaw():
 	A0 = (A0_1 << 2) | A0_2
 	A1 = (A1_1 << 2) | A1_2
 	
-	C0 = 1.0716 #correction values
+	C0 = 1.0716 #valori de corectie, calculate manual
 	C1 = 0.9878
 
 	V0 = A0*4.2/1023 * C0
