@@ -12,7 +12,7 @@ pi.bb_serial_read_open(RX, 9600, 8)
 
 line = ""
 last = "last"
-fisier = "/home/pi/Coduri/Monolit_dev/gsm.txt"
+fisier = "/home/pi/Final/gsm.txt"
 
 try:
     while 1:

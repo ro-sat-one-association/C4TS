@@ -6,7 +6,7 @@ import subprocess
 
 TX  = 27
 RX  = 17
-fisier = "/home/pi/Coduri/Monolit_dev/gsm.txt"
+fisier = "/home/pi/Final/gsm.txt"
 
 subprocess.call(["gpio", "mode", "1", "output"])
 subprocess.call(["gpio", "write", "1", "1"])

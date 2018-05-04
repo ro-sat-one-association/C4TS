@@ -4,6 +4,7 @@ import bmp180 as BMP
 import gps    as GPS
 import tsl    as TSL
 import batt   as BAT
+import mpu    as MPU
 
 from sht21 import SHT21
 from ds    import DS18B20
@@ -18,13 +19,15 @@ try:
 except IOError, e:
     print "SHT" + str(e)
 
-
+f = open("/home/pi/Date.txt", "a")
+   
 BMP_OK      = False
 GPS_OK      = False
 DS18_OK     = False
 TSL_OK      = False
 SHT_OK      = False
 BAT_OK      = False
+MPU_OK      = MPU.test()
 
 BMPData  = -1
 GPSData  = -1
@@ -86,7 +89,7 @@ stateString += "DS18:" + str(DS18_OK) + " " +  str(DS18Data) + "\n"
 stateString += "TSL:"  + str(TSL_OK)  + " " +  str(TSLData)  + "\n"
 stateString += "SHT:"  + str(SHT_OK)  + " " +  str(SHTData)  + "\n"
 stateString += "BAT:"  + str(BAT_OK)  + " " +  str(BATData)  + "\n"
-
+stateString += "MPU:"  + str(MPU_OK)  + " " + "\n"
 
 APRSToSend  = ""
 APRSToSend += "B"  +  str(int(BMP_OK ))
@@ -95,6 +98,7 @@ APRSToSend += "D"  +  str(int(DS18_OK))
 APRSToSend += "T"  +  str(int(TSL_OK ))
 APRSToSend += "S"  +  str(int(SHT_OK ))
 APRSToSend += "Ba" +  str(int(BAT_OK ))
+APRSToSend += "M"  +  str(int(MPU_OK ))
 
 Data         = {}
 Data["BMP"]  = BMPData
@@ -106,5 +110,9 @@ Data["BAT"]  = BATData
 
 
 print stateString
+
+
+f.write(stateString + "\n\n")
+f.close()
 
     

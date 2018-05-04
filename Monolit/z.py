@@ -1,10 +1,10 @@
-import gsm as GSM
 import sys
 import time
 import difflib
 import pigpio
 
 TX=27
+
 
 def tx(data):
 	try:
@@ -20,13 +20,10 @@ def tx(data):
 	
 	except:
 			pi.stop()
-		
-tx("AT+CREG=1\r")	
-tx("AT+CSMS=1\r")	
-tx("AT+CMGF=1\r")	
-tx("AT+CSCS=\"GSM\"\r")	
-tx("AT+CMGS=\"" + sys.argv[1] + "\"\r")
+
+tx("AT+CMGS=\"+40740551029\"\r")
 time.sleep(1)
-tx(sys.argv[2])
+tx("salut")
+time.sleep(1)
 tx("\r")	
 		
