@@ -22,7 +22,7 @@ static void setup() {
 static void printData(){
 
   // print the data
-  FILE *f = fopen("MPU.txt", "a+");
+  FILE *f = fopen("/home/pi/Final/MPU.txt", "a+");
   
   fprintf(f, "%6.6f\t", ax);
   fprintf(f, "%6.6f\t", ay);

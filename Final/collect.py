@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 import bmp180 as BMP
 import gps    as GPS
@@ -29,12 +30,12 @@ SHT_OK      = False
 BAT_OK      = False
 MPU_OK      = MPU.test()
 
-BMPData  = -1
-GPSData  = -1
+BMPData  = [-1, -1]
+GPSData  = [-1, -1, None]
 DS18Data = -1
-TSLData  = -1
-SHTData  = -1
-BATData  = -1
+TSLData  = [-1, -1]
+SHTData  = [-1, -1]
+BATData  = [-1, -1]
 
 try:
     BMPData = BMP.readData()
@@ -108,11 +109,32 @@ Data["TSL"]  = TSLData
 Data["SHT"]  = SHTData
 Data["BAT"]  = BATData
 
+DataString =  str(BMPData[0])  + "," + str(BMPData[1]) + ","
+DataString += str(GPSData[0])  + "," + str(GPSData[1]) + "," + str(GPSData[2]) + ","
+DataString += str(DS18Data) + "," 
+DataString += str(TSLData[0])  + "," + str(TSLData[1]) + ","
+DataString += str(SHTData[0])  + "," + str(SHTData[1]) + ","
+DataString += str(BATData[0])  + "," + str(BATData[1]) + "\n"
+
+
+"""
+BMPData  = [-1, -1]
+GPSData  = [-1, -1, None]
+DS18Data = -1
+TSLData  = [-1, -1]
+SHTData  = [-1, -1]
+BATData  = [-1, -1]
+"""
 
 print stateString
 
-
+f.write(str(datetime.utcnow())+"\n")
 f.write(stateString + "\n\n")
 f.close()
+
+
+lastData = open("/home/pi/lastData.txt", "a")
+lastData.write(DataString + APRSToSend + "\n")
+lastData.close()
 
     

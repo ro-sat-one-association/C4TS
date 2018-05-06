@@ -77,6 +77,11 @@ def sendSMS(numar, sms):
     
     Tx("AT+CREG=1\r")
     time.sleep(1)
+    while (Rx(2).find("AT+CREG=1") == -1 and Rx(1).find("OK") == -1):
+        if time.time() - t > 15:
+            print "NU AM PRIMIT CREG OK"
+            break
+        time.sleep(1)
     Tx("AT+CSMS=1\r")
     time.sleep(1)
     Tx("AT+CMGF=1\r")	

@@ -5,12 +5,12 @@ def getSize(fileobject):
     
 def test():
     file  = open('/home/pi/MPU.txt', 'r')
-    cfile = open('MPU_check.txt', 'r')
+    cfile = open('/home/pi/MPU_check.txt', 'r')
     check = cfile.read()
     cfile.close()
     
     if int(getSize(file)) != int(check):
-        cfile = open('MPU_check.txt', 'w+')
+        cfile = open('/home/pi/MPU_check.txt', 'w+')
         cfile.write(str(getSize(file)))
         cfile.close()
         file.close()

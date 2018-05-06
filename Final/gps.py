@@ -3,6 +3,7 @@ import pynmea2
 
 def readData():
     data = GPS_RX.read()
+    data = str(GPS_RX.read())
     data = data.split('\n')
     GGA  = ""
     
@@ -10,9 +11,10 @@ def readData():
         if (data[i].find("GGA") != -1):
             GGA = data[i]
             break
-    
-    msg = pynmea2.parse(GGA)
-    
+    try:
+        msg = pynmea2.parse(GGA)
+    except ParseError:
+        return [0,0, None]
     lat_dec  = msg.latitude
     long_dec = msg.longitude
     altitude = msg.altitude
@@ -50,6 +52,7 @@ def readData():
 
 def readDataDecimal():
     data = GPS_RX.read()
+    data = str(GPS_RX.read())
     data = data.split('\n')
     GGA  = ""
     
@@ -58,7 +61,10 @@ def readDataDecimal():
             GGA = data[i]
             break
     
-    msg = pynmea2.parse(GGA)
+    try:
+        msg = pynmea2.parse(GGA)
+    except ParseError:
+        return [0,0, None]
     
     lat  = msg.latitude
     long = msg.longitude
@@ -72,14 +78,14 @@ def readDataDecimal():
     return [lat,long,altitude] 
     
 def getLastLocation():
-    f = open('gps.txt', 'r')
+    f = open('/home/pi/gps.txt', 'r')
     GPSStr = f.read()
     f.close()
     GPSData = GPSStr.split(',')
     return GPSData
     
 def getLastLocationDecimal():
-    f = open('gps_dec.txt', 'r')
+    f = open('/home/pi/gps_dec.txt', 'r')
     GPSStr = f.read()
     f.close()
     GPSData = GPSStr.split(',')
