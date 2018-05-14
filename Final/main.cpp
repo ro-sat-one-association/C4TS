@@ -13,7 +13,7 @@ void setup(){
 
 void loop(){
     actual = time(NULL);
-    if(actual - collect > 1){
+    if(actual - collect > 2){
         cout<<"COLLECT\n";
         system("python /home/pi/Final/collect.py");
         collect = time(NULL);

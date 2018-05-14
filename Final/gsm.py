@@ -69,6 +69,8 @@ def sendSMS(numar, sms):
     time.sleep(1)
     start()
     t = time.time()
+    Tx("AT+CMEE=1\r")
+    time.sleep(1)
     while (Rx(100).find("PBREADY") == -1):
         if time.time() - t > 15:
             print "NU AM GASIT PBREADY"
