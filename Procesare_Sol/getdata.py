@@ -1,41 +1,62 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import urllib2
 import re
 import time
+from datetime import datetime
+
+lastTime = datetime.strptime("2000-01-01 00:00:00", '%Y-%m-%d %H:%M:%S')
 
 def u2a(data):
     asciidata=data.encode("ascii","ignore")
     return asciidata
 def parseData():
     callsign = "YO8RTZ-10"
+    
     response = urllib2.urlopen("https://aprs.fi/info/?call=" + callsign)
     page_source = response.read()
-    #s = unicode(page_source, "utf-8")
+    response.close()
     s = page_source
+    
+    response    = urllib2.urlopen("https://aprs.fi/?c=raw&call=" + callsign + "&limit=2&view=decoded")
+    page_source = response.read()
+    response.close()
+    raw_decoded = page_source
     
     deg = unicode("°C", "utf-8")
     
+    regex = r'wx:<br />([^"]+)'
     
-    #result  = re.search('/>(.*)mbar', s)
-    #result  = str(result.group(1))
-    #weather = unicode(result, "utf-8")
-    weather = "-1.1 °C 45% 950.2"
-    weather = unicode(weather, "utf-8")
-    weather = weather.split(deg)
-    temp1   = weather[0]
-    humid   = (weather[1].split("%"))[0]
-    press   = (weather[1].split("%"))[1]
+    weather = re.findall(regex, raw_decoded)
+    try:
+        weather = str(weather[0])
+        weather = unicode(weather, "utf-8")
+        
+        pre = r'pressure:([^"]+)mbar'
+        hre = r'humidity:([^"]+)%<br'
+        tre = r'temp:([^"]+)' + deg
+        
+        press = re.findall(pre, weather)
+        press = float(press[0])
+        
+        temp  = re.findall(tre, weather)
+        temp  = float(temp[0])
+        
+        humid = re.findall(hre, weather)
+        humid = float(humid[0])*10
+        
+    except:
+        press = -1
+        temp  = -1
+        humid = -1
     
-    temp1   = float(u2a(temp1))
-    humid   = int(u2a(humid))*100
-    press   = float(u2a(press))*10
-    
+    altit = 0
     result  = re.search('Altitude:</th> <td valign=\'top\'>(.*)m</td></tr>', s)
-    result  = str(result.group(1))
-    result  = result[:-2]
-    altit   = int(result)
+    if result != None:
+        result  = str(result.group(1))
+        result  = result[:-2]
+        altit   = int(result)
+    
     
     result  = re.search('Comment:</th> <td valign=\'top\'><i>(.*)</i>', s)
     result  = str(result.group(1))
@@ -71,17 +92,45 @@ def parseData():
     ds      = float(comment[3].replace("DS",  " "))
     bat1    = float(comment[4].replace("BAT", " "))
     bat2    = float(comment[5])
-    return [ds, ts1, press, altit, ts1, ts2, bat2, bat1, statusBa, statusS, statusT, statusD, statusG, statusB]
+    
+    result  = re.search('Last position:</th> <td valign=\'top\'>(.*)\(<span', s)
+    result  = str(result.group(1))
+    timp    = result[:19]
+    timp    = datetime.strptime(timp, '%Y-%m-%d %H:%M:%S')
+    if altit == 0:
+        global lastTime
+        timp = lastTime
+    
+    return [ds, temp, press, humid, altit, ts1, ts2, bat2, bat1, statusBa, statusS, statusT, statusD, statusG, statusB, timp]
+
 
 def submitData():
+    global lastTime
     data = parseData()
-    urllib2.urlopen("http://localhost/submit.php?table=1&v1=" + str(data[0]) + "&v2=" + str(data[1]))
-    urllib2.urlopen("http://localhost/submit.php?table=2&v1=" + str(data[3]) + "&v2=" + str(data[4]))
-    urllib2.urlopen("http://localhost/submit.php?table=3&v1=" + str(data[3]) + "&v2=" + str(data[5]))
-    urllib2.urlopen("http://localhost/submit.php?table=4&v1=" + str(data[6]) + "&v2=" + str(data[7]))
-    urllib2.urlopen("http://localhost/submit.php?table=5&v1=" + str(data[8]) + "&v2=" + str(data[9]))
+    if data[15] > lastTime:
+        if data[1] != -1: #T ext
+            u = urllib2.urlopen("http://localhost/submit.php?table=1&v1=" + str(data[0]) + "&v2=" + str(data[1]))
+            u.close()
+            
+        if data[2] != -1 and data[3] != -1: #pressure
+            u = urllib2.urlopen("http://localhost/submit.php?table=2&v1=" + str(data[2]) + "&v2=" + str(data[3]))
+            u.close()  
+            u = urllib2.urlopen("http://localhost/submit.php?table=3&v1=" + str(data[2]) + "&v2=" + str(data[4]))
+            u.close()
+            
+        u = urllib2.urlopen("http://localhost/submit.php?table=4&v1=" + str(data[5]) + "&v2=" + str(data[6]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=GPS&v1=" + str(data[13]))
+        u.close()
+        
+        lastTime = data[15]
+        print data
 
 while True:
     submitData()
-    time.sleep(1)
+    time.sleep(10)
+    
+    
     
