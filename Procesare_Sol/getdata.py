@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib2
 import re
 import time
+import geturlsource as URL
+import urllib2
 from datetime import datetime
 
 lastTime = datetime.strptime("2000-01-01 00:00:00", '%Y-%m-%d %H:%M:%S')
@@ -13,15 +14,9 @@ def u2a(data):
 def parseData():
     callsign = "YO8RTZ-10"
     
-    response = urllib2.urlopen("https://aprs.fi/info/?call=" + callsign)
-    page_source = response.read()
-    response.close()
-    s = page_source
     
-    response    = urllib2.urlopen("https://aprs.fi/?c=raw&call=" + callsign + "&limit=2&view=decoded")
-    page_source = response.read()
-    response.close()
-    raw_decoded = page_source
+    s = URL.getSource("https://aprs.fi/info/?call=" + callsign)
+    raw_decoded = URL.getSource("https://aprs.fi/?c=raw&call=" + callsign + "&limit=2&view=decoded")
     
     deg = unicode("°C", "utf-8")
     
