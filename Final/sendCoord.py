@@ -2,8 +2,8 @@ import gps as GPS
 import gsm as GSM
 import bmp180 as BMP
 
-numar = "+40740551029"
-maxAltitude = 470 #metri
+numar = "+40757876350"
+maxAltitude = 700 #metri
 
 GPSData = GPS.readDataDecimal()
 

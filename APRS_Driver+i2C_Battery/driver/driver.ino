@@ -40,6 +40,8 @@ void setup()
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
 
+  pinMode(LED_BUILTIN, OUTPUT);
+  
   Serial.begin(9600);
   pinMode(4, OUTPUT);
 
@@ -64,8 +66,14 @@ void loop()
       textPacket =  Serial.readString();
     }
 
-    if(strstr(textPacket.c_str(), "<APRS>")){
+    if(strstr(textPacket.c_str(), "<APRS>")){  
+              digitalWrite(LED_BUILTIN, HIGH);  
+              delay(500);                       
+              digitalWrite(LED_BUILTIN, LOW);  
+              delay(500);  
+
               digitalWrite(4, HIGH);
+              
               Serial.print("TRIMIT: ");
               textPacket.remove(0, 6);
              // textPacket.trim();
@@ -78,7 +86,8 @@ void loop()
               digitalWrite(4, LOW);
               textPacket = "\0";
              // while (afsk_flush()) {power_save();}
-        } 
+        }
+     digitalWrite(LED_BUILTIN, LOW);  
 }
 
 void receiveData(int byteCount){

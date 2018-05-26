@@ -18,7 +18,7 @@ void loop(){
         system("python /home/pi/Final/collect.py");
         collect = time(NULL);
     }
-    if(actual - aprs > 120){
+    if(actual - aprs > 60){
         cout<<"APRS\n";
         system("python /home/pi/Final/sendAPRS.py");
         aprs = time(NULL);
@@ -33,7 +33,7 @@ void loop(){
 int main(){
     setup();
     
-	while(true)
+    while(true)
         loop();
 	return 0;
 }

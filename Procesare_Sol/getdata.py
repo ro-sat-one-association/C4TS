@@ -12,7 +12,7 @@ def u2a(data):
     asciidata=data.encode("ascii","ignore")
     return asciidata
 def parseData():
-    callsign = "YO8RTZ-10"
+    callsign = "YO8BCA-11"
     
     
     s = URL.getSource("https://aprs.fi/info/?call=" + callsign)
@@ -113,19 +113,32 @@ def submitData():
             u = urllib2.urlopen("http://localhost/submit.php?table=3&v1=" + str(data[2]) + "&v2=" + str(data[4]))
             u.close()
             
-        u = urllib2.urlopen("http://localhost/submit.php?table=4&v1=" + str(data[5]) + "&v2=" + str(data[6]))
-        u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
-        u.close()
+        if data[5] != -1 and data[6] != -1:    
+            u = urllib2.urlopen("http://localhost/submit.php?table=4&v1=" + str(data[5]) + "&v2=" + str(data[6]))
+            u.close()
+        if data[7] != -1 and data[8] != -1:
+            u = urllib2.urlopen("http://localhost/submit.php?table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
+            u.close()
+
+        
         u = urllib2.urlopen("http://localhost/submit.php?table=GPS&v1=" + str(data[13]))
         u.close()
-        
+        u = urllib2.urlopen("http://localhost/submit.php?table=SHT&v1=" + str(data[10]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=TSL&v1=" + str(data[11]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=DS18&v1=" + str(data[14]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=BMP&v1=" + str(data[12]))
+        u.close()
+        u = urllib2.urlopen("http://localhost/submit.php?table=time&v1=" + str(data[15]).replace(" ", "%20"))
+        u.close()
         lastTime = data[15]
         print data
 
 while True:
     submitData()
-    time.sleep(10)
+    time.sleep(60)
     
     
     
