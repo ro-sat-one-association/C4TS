@@ -1,4 +1,4 @@
-update=26-Mar-18 2:44:16 PM
+update=3/17/2018 10:42:10 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -241,13 +241,3 @@ LibName209=m10dof
 LibName210=esp8266(3
 LibName211=drv8833
 LibName212=stabu
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
