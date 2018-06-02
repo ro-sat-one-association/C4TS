@@ -13,7 +13,7 @@ void setup(){
 
 void loop(){
     actual = time(NULL);
-    if(actual - collect > 2){
+    if(actual - collect > 1){
         cout<<"COLLECT\n";
         system("python /home/pi/Final/collect.py");
         collect = time(NULL);
@@ -23,7 +23,7 @@ void loop(){
         system("python /home/pi/Final/sendAPRS.py");
         aprs = time(NULL);
     }
-    if(actual - coord > 600){
+    if(actual - coord > 30){
         cout<<"COORD\n";
         system("python /home/pi/Final/sendCoord.py");
         coord = time(NULL);
