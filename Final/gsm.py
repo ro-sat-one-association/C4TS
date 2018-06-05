@@ -3,6 +3,7 @@ import time
 import difflib
 import pigpio
 import subprocess
+from datetime import datetime
 
 TX  = 27
 RX  = 17
@@ -69,6 +70,8 @@ def sendSMS(numar, sms):
     time.sleep(1)
     start()
     t = time.time()
+    Tx(str(datetime.utcnow()) + "\r")
+    time.sleep(1)
     Tx("AT+CMEE=1\r")
     time.sleep(1)
     while (Rx(100).find("PBREADY") == -1):
