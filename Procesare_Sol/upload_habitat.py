@@ -16,7 +16,7 @@ def crc16_ccitt(data):
     crc16 = crcmod.predefined.mkCrcFun('crc-ccitt-false')
     return hex(crc16(data))[2:].upper().zfill(4)
 
-def habitat_upload_payload_telemetry(payload_callsign = "C4TS", callsign="C4TS"):
+def upload_habitat(payload_callsign = "C4TS", callsign="C4TS"):
     #$$habitat,123,13:16:24,51.123,0.123,11000*ABCD1
 
     #$$TST,46.9449,26.3595,312
@@ -60,4 +60,4 @@ def habitat_upload_payload_telemetry(payload_callsign = "C4TS", callsign="C4TS")
     except Exception as e:
         return (False,"Failed to upload to Habitat: %s" % (str(e)))
         
-print habitat_upload_payload_telemetry()
+print upload_habitat()

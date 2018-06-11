@@ -4,7 +4,9 @@ import re
 import time
 import geturlsource as URL
 import urllib2
+from upload_habitat import upload_habitat
 from datetime import datetime
+
 
 lastTime = datetime.strptime("2000-01-01 00:00:00", '%Y-%m-%d %H:%M:%S')
 
@@ -103,6 +105,7 @@ def submitData():
     global lastTime
     data = parseData()
     if data[15] > lastTime:
+        upload_habitat()
         if data[1] != -1: #T ext
             u = urllib2.urlopen("http://localhost/submit.php?table=1&v1=" + str(data[0]) + "&v2=" + str(data[1]))
             u.close()
