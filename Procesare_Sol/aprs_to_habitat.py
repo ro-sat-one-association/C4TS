@@ -80,8 +80,4 @@ def parseData():
         timp = lastTime
 
     return [timp, lat, lng, altit, ds, temp, press, humid, ts1, ts2, bat2, bat1]
-
-
-print parseData()
-    
     

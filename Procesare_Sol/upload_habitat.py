@@ -23,6 +23,8 @@ def upload_habitat(payload_callsign = "C4TS", callsign="C4TS"):
     
     data = parseData() #ia de pe aprs
     
+    print data
+    
     ayy = "C4TS,"
     for i in range(0,11):
         ayy = ayy + str(data[i]) + ","
@@ -59,5 +61,3 @@ def upload_habitat(payload_callsign = "C4TS", callsign="C4TS"):
         return (True,"OK")
     except Exception as e:
         return (False,"Failed to upload to Habitat: %s" % (str(e)))
-        
-print upload_habitat()
