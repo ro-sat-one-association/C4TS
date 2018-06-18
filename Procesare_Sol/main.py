@@ -104,37 +104,41 @@ def parseData():
 def submitData():
     global lastTime
     data = parseData()
+    
+    pass_script = "pass"
+    host        = "localhost"
+    
     if data[15] > lastTime:
         print upload_habitat()
         if data[1] != -1: #T ext
-            u = urllib2.urlopen("http://localhost/submit.php?table=1&v1=" + str(data[0]) + "&v2=" + str(data[1]))
+            u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=1&v1=" + str(data[0]) + "&v2=" + str(data[1]))
             u.close()
             
         if data[2] != -1 and data[3] != -1: #pressure
-            u = urllib2.urlopen("http://localhost/submit.php?table=2&v1=" + str(data[2]) + "&v2=" + str(data[3]))
+            u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=2&v1=" + str(data[2]) + "&v2=" + str(data[3]))
             u.close()  
-            u = urllib2.urlopen("http://localhost/submit.php?table=3&v1=" + str(data[2]) + "&v2=" + str(data[4]))
+            u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=3&v1=" + str(data[2]) + "&v2=" + str(data[4]))
             u.close()
             
         if data[5] != -1 and data[6] != -1:    
-            u = urllib2.urlopen("http://localhost/submit.php?table=4&v1=" + str(data[5]) + "&v2=" + str(data[6]))
+            u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=4&v1=" + str(data[5]) + "&v2=" + str(data[6]))
             u.close()
         if data[7] != -1 and data[8] != -1:
-            u = urllib2.urlopen("http://localhost/submit.php?table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
+            u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
             u.close()
 
         
-        u = urllib2.urlopen("http://localhost/submit.php?table=GPS&v1=" + str(data[13]))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=GPS&v1=" + str(data[13]))
         u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=SHT&v1=" + str(data[10]))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=SHT&v1=" + str(data[10]))
         u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=TSL&v1=" + str(data[11]))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=TSL&v1=" + str(data[11]))
         u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=DS18&v1=" + str(data[14]))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=DS18&v1=" + str(data[14]))
         u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=BMP&v1=" + str(data[12]))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=BMP&v1=" + str(data[12]))
         u.close()
-        u = urllib2.urlopen("http://localhost/submit.php?table=time&v1=" + str(data[15]).replace(" ", "%20"))
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=time&v1=" + str(data[15]).replace(" ", "%20"))
         u.close()
         lastTime = data[15]
         print data
