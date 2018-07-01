@@ -37,19 +37,19 @@ def getAPRSAltitude(altitude):
 	returnStr += str(altitude)
 	return returnStr
 	
-###TEMPERATURA BMP###
-if int(CtoF(Data["BMP"][0])) >= 0:
-	if int(CtoF(Data["BMP"][0])) < 100:
+###TEMPERATURA SHT###
+if int(CtoF(Data["SHT"][0])) >= 0:
+	if int(CtoF(Data["SHT"][0])) < 100:
 		APRS1 += "0"
-		if int(CtoF(Data["BMP"][0])) < 10:
+		if int(CtoF(Data["SHT"][0])) < 10:
 			APRS1 += "0"
-	APRS1 += CtoF(Data["BMP"][0])	
+	APRS1 += CtoF(Data["SHT"][0])	
 else:
-	if int(CtoF(Data["BMP"][0])) > -10:
+	if int(CtoF(Data["SHT"][0])) > -10:
 		APRS1 += "-0"
-		APRS1 += str(-int(CtoF(Data["BMP"][0])))
+		APRS1 += str(-int(CtoF(Data["SHT"][0])))
 	else:
-		APRS1 += CtoF(Data["BMP"][0])	
+		APRS1 += CtoF(Data["SHT"][0])	
 #####################
 
 
