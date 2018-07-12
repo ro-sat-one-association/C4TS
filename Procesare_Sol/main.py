@@ -20,11 +20,24 @@ def parseData():
     s = URL.getSource("https://aprs.fi/info/?call=" + callsign)
     raw_decoded = URL.getSource("https://aprs.fi/?c=raw&call=" + callsign + "&limit=2&view=decoded")
     
-    deg = unicode("°C", "utf-8")
+    deg = unicode("°", "utf-8")
+            
+    latre = r'latitude:([^"]+)' 
+    lngre = r'longitude:([^"]+)'
+     
+    lat = re.findall(latre, raw_decoded)
+    lat = float(lat[0].split(" ")[1])
+    
+    lng = re.findall(lngre, raw_decoded)
+    lng = float(lng[0].split(" ")[1])
+    
+    print lat, lng
+    
     
     regex = r'wx:<br />([^"]+)'
     
     weather = re.findall(regex, raw_decoded)
+    
     try:
         weather = str(weather[0])
         weather = unicode(weather, "utf-8")
@@ -46,7 +59,8 @@ def parseData():
         press = -1
         temp  = -1
         humid = -1
-    
+        
+        
     altit = 0
     result  = re.search('Altitude:</th> <td valign=\'top\'>(.*)m</td></tr>', s)
     if result != None:
@@ -98,7 +112,7 @@ def parseData():
         global lastTime
         timp = lastTime
     
-    return [ds, temp, press, humid, altit, ts1, ts2, bat2, bat1, statusBa, statusS, statusT, statusD, statusG, statusB, timp]
+    return [ds, temp, press, humid, altit, ts1, ts2, bat2, bat1, statusBa, statusS, statusT, statusD, statusG, statusB, timp, lat, lng]
 
 
 def submitData():
@@ -126,20 +140,29 @@ def submitData():
         if data[7] != -1 and data[8] != -1:
             u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=5&v1=" + str(data[7]) + "&v2=" + str(data[8]))
             u.close()
-
+            
+        u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=6&v1=" + str(data[16]) + "&v2=" + str(data[17]))
+        u.close()
         
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=GPS&v1=" + str(data[13]))
         u.close()
+        
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=SHT&v1=" + str(data[10]))
         u.close()
+        
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=TSL&v1=" + str(data[11]))
         u.close()
+        
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=DS18&v1=" + str(data[14]))
         u.close()
+        
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=BMP&v1=" + str(data[12]))
         u.close()
+        
         u = urllib2.urlopen("http://" + host + "/submit.php?pass=" + pass_script + "&table=time&v1=" + str(data[15]).replace(" ", "%20"))
         u.close()
+        
+        
         lastTime = data[15]
         print data
 
